@@ -1,8 +1,8 @@
 import { ApplicationError } from './app.error'
 
 export class InvalidRequestError extends ApplicationError {
-  constructor(public statusCode = 400) {
-    super('Please check your request, something is wrong')
+  constructor(message?: string, public statusCode = 400) {
+    super(message || 'Please check your request, something is wrong')
     this.name = 'InvalidRequestError'
   }
   serialize() {

@@ -1,6 +1,5 @@
 import { v4 } from 'uuid'
 import { AccountAlreadyExistsError } from '~/application/errors/account-exists.error'
-import { ApplicationError } from '~/application/errors/app.error'
 import { Account } from '~/domain/account'
 import { AddAccountCommand } from '~/domain/commands/add-account.command'
 import { IAccountRepository } from '~/domain/repositories/account.repository'
@@ -28,7 +27,7 @@ const mockedAccount = (): Account => {
     password: '123456789',
     email: 'stone@stone.com.br',
     name: 'stonestone',
-    id
+    id,
   }).value as any
 }
 
@@ -66,10 +65,15 @@ describe('Create account controller', () => {
   })
   it('should save and return account created when has valid command', async () => {
     const { sut, repository } = sutFactory()
-    jest.spyOn(sut, 'execute').mockResolvedValueOnce(mockedAccount())
+    jest.spyOn(sut, 'execute').mockResolvedValueOnce(mockedAccount().toJSON())
     const save = jest.spyOn(repository, 'save')
     const response = await sut.execute(mockedCommand()).catch((err) => err)
     expect(save).toHaveBeenCalledTimes(0)
-    expect(response).toStrictEqual(mockedAccount())
+    expect(response).toStrictEqual({
+      email: 'stone@stone.com.br',
+      name: 'stonestone',
+      balance: 1000,
+      id,
+    })
   })
 })

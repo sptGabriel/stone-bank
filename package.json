@@ -19,7 +19,7 @@
     "format": "prettier --write --loglevel silent './**/*.{json,js}'",
     "lint": "eslint 'src/**/*.ts' --fix --max-warnings 0",
     "lint:ts": "tsc --noEmit",
-    "test": "jest --bail --runInBand --setupFiles dotenv/config",
+    "test": "jest --bail --runInBand --watchAll --setupFiles dotenv/config",
     "test:coverage": "npm test -- --coverage",
     "prePush": "npm run test:coverage && npm run lint && npm run lint:ts && npm run build",
     "migrate:make": "knex --knexfile src/infrastructure/knex/knexfile.ts migrate:make -x ts",
