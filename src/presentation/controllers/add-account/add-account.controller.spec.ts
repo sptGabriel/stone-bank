@@ -1,5 +1,6 @@
 import { v4 } from 'uuid'
 import { ApplicationError } from '~/application/errors/app.error'
+import { BadRequestError } from '~/application/errors/bad-request.error'
 import { InvalidRequestError } from '~/application/errors/invalid-request'
 import { AddAccountUseCase } from '~/application/usecases/account/add-account.use-case'
 import { Account } from '~/domain/account'
@@ -44,31 +45,27 @@ const mockedAccount = (): Account => {
 describe('Create account controller', () => {
   it('should throw if dto is invalid', async () => {
     const { sut } = sutFactory()
-    const responseHasError = await sut.execute({}).catch((err) => err)
-    expect(responseHasError).toBeInstanceOf(ApplicationError)
+    const responseHasError = await sut
+      .execute(undefined as any)
+      .catch((err) => err)
+    expect(responseHasError).toBeInstanceOf(InvalidRequestError)
   })
-  it('should return a ApplicationError when has invalid dto', async () => {
+  it('should return a BadRequestError when has invalid dto', async () => {
     const { sut } = sutFactory()
-    const nohasDTO = await sut.execute({}).catch((err) => err)
+    const nohasDTO = await sut.execute(undefined as any).catch((err) => err)
     const hasDtoInvalid = await sut
       .execute({
-        body: {
-          email: 'adasdas',
-          password: '1234567',
-          name: 'error',
-        },
+        email: 'adasdas',
+        password: '1234567',
+        name: 'error',
       })
       .catch((err) => err)
-    expect(nohasDTO).toBeInstanceOf(InvalidRequestError)
-    expect(hasDtoInvalid).toBeInstanceOf(ApplicationError)
+    expect(hasDtoInvalid).toBeInstanceOf(BadRequestError)
   })
   it('should not call useCase when has error', async () => {
     const { sut, addAccount } = sutFactory()
     const executeSpy = jest.spyOn(addAccount, 'execute')
-    const invalid = await sut
-      .execute({})
-      .catch((err) => err)
-      .catch((err) => err)
+    const invalid = await sut.execute({} as any).catch((err) => err)
     expect(executeSpy).toHaveBeenCalledTimes(0)
     expect(invalid).toBeInstanceOf(ApplicationError)
   })
@@ -81,16 +78,14 @@ describe('Create account controller', () => {
         id,
         email: 'stone@stone.com.br',
         name: 'stonestone',
-        balance: 1000
-      }
+        balance: 1000,
+      },
     }
     jest.spyOn(presenter, 'response').mockResolvedValueOnce(expected)
     const response = await sut.execute({
-      body: {
-        email: 'stone@stone.com.br',
-        name: 'stonestone',
-        password: '123456789',
-      },
+      email: 'stone@stone.com.br',
+      name: 'stonestone',
+      password: '123456789',
     })
     expect(response).toStrictEqual(expected)
   })

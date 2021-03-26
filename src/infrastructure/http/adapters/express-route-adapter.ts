@@ -1,16 +1,14 @@
 import { NextFunction, Request, Response } from 'express'
 import { IController } from '~/application/ports/controller'
 
-export const adaptRoute = <T>(controller: IController<T>) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
+export const adaptRoute = (controller: IController) => {
+  return async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const response = await controller.execute({
-        query: req.query,
-        params: req.params,
-        body: req.body,
-        headers: req.headers,
+      const result = await controller.execute({
+        ...(request.body || {}),
+        ...(request.params || {}),
       })
-      res.status(response.statusCode).json(response.body)
+      response.status(result.statusCode).json(result.body)
       return next()
     } catch (error) {
       return next(error)

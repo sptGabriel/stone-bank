@@ -32,13 +32,13 @@ const sutFactory = (): SutType => {
 describe('Sigin controller', () => {
   it('should throw if dto is invalid', async () => {
     const { sut } = sutFactory()
-    const responseHasError = await sut.execute({}).catch((err) => err)
+    const responseHasError = await sut
+      .execute(undefined as any)
+      .catch((err) => err)
     const hasDtoInvalid = await sut
       .execute({
-        body: {
-          email: 'a',
-          password: 'b',
-        },
+        email: 'a',
+        password: 'b',
       })
       .catch((err) => err)
     expect(responseHasError).toBeInstanceOf(InvalidRequestError)
@@ -48,7 +48,7 @@ describe('Sigin controller', () => {
     const { sut, sigin } = sutFactory()
     const executeSpy = jest.spyOn(sigin, 'execute')
     const invalid = await sut
-      .execute({})
+      .execute({} as any)
       .catch((err) => err)
       .catch((err) => err)
     expect(executeSpy).toHaveBeenCalledTimes(0)
@@ -65,10 +65,8 @@ describe('Sigin controller', () => {
     }
     jest.spyOn(presenter, 'response').mockResolvedValueOnce(expected)
     const response = await sut.execute({
-      body: {
-        email: 'stone@stone.com.br',
-        password: '123456789',
-      },
+      email: 'stone@stone.com.br',
+      password: '123456789',
     })
     expect(response).toStrictEqual(expected)
   })

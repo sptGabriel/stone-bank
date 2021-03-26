@@ -2,11 +2,11 @@ import { ApplicationError } from './app.error'
 
 export class UnauthorizedError extends ApplicationError {
   constructor(
-    public message: string,
+    message?: string,
     public statusCode = 401,
     public readonly name = 'UnauthorizedError',
   ) {
-    super(message)
+    super(message || 'Access denied')
   }
 
   serialize() {

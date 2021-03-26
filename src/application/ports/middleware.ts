@@ -1,5 +1,5 @@
-import { IMiddlewareRequestModel } from './middleware-request.model'
+import { IResponseModel } from './response-model';
 
 export interface IMiddleware {
-  execute(requestModel: IMiddlewareRequestModel): Promise<void> | never
+  execute(requestModel: any): Promise<IResponseModel<any>>
 }

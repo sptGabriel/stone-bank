@@ -1,6 +1,5 @@
 import { ICommandHandler } from 'kill-event-sourcing'
 import { AccountAlreadyExistsError } from '~/application/errors/account-exists.error'
-import { InvalidRequestError } from '~/application/errors/invalid-request'
 import { Account } from '~/domain/account'
 import { AccountStruct } from '~/domain/account.struct'
 import { AddAccountCommand } from '~/domain/commands/add-account.command'

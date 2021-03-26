@@ -1,18 +1,18 @@
-import { NextFunction, Request, RequestHandler } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { IMiddleware } from '~/application/ports/middleware'
 
-export const adaptMiddleware = <T>(middleware: IMiddleware) => {
+export const adaptMiddleware = (middleware: IMiddleware) => {
   return async (request: Request, response: Response, next: NextFunction) => {
     try {
       await middleware
         .execute({
-          query: request.query,
-          params: request.params,
-          body: request.body,
-          headers: request.headers,
-          method: request.method,
+          accessToken: request.headers?.authorization?.split(' ')[1],
+          ...(request.headers || {}),
         })
-        .then(() => next())
+        .then((res) => {
+          Object.assign(request, res.body)
+          next()
+        })
     } catch (error) {
       return next(error)
     }

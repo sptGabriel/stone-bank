@@ -39,7 +39,7 @@ const mockedCommand = (): AddAccountCommand => {
   })
 }
 
-describe('Create account controller', () => {
+describe('Create account command handler', () => {
   it('should call findbyEmail and save functions with correct values', async () => {
     const { sut, repository } = sutFactory()
     const findbyEmail = jest.spyOn(repository, 'findbyEmail')
