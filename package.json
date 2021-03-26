@@ -31,6 +31,16 @@
     "docker:down": "docker-compose down",
     "docker:stop": "docker stop $(docker ps -a -q) && docker system prune -f"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run prePush"
+    }
+  },
+  "lint-staged": {
+    "./**/.ts": "npm lint:fix",
+    "./**/*.{js,json}": "npm format"
+  },
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.13.10",
