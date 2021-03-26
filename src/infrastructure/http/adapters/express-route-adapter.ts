@@ -7,6 +7,7 @@ export const adaptRoute = (controller: IController) => {
       const result = await controller.execute({
         ...(request.body || {}),
         ...(request.params || {}),
+        accountId: request.accountId
       })
       response.status(result.statusCode).json(result.body)
       return next()
