@@ -7,6 +7,7 @@ import { Connection } from "~/infrastructure/database/connection";
 import { AccountRepository } from "~/infrastructure/persistence/account.impl-repository";
 import { SigninController } from "~/presentation/controllers/sign-in/signin.controller";
 import { CreatedResponse } from "~/presentation/responses/created-response";
+import { SucessResponse } from "~/presentation/responses/sucess-response";
 
 export const makeSigninControllerFactory = () => { 
 	const repository = new AccountRepository(Connection.client)
@@ -19,6 +20,6 @@ export const makeSigninControllerFactory = () => {
     },
   ])
   const useCase = new SiginUseCase(commandBus)
-  const signinPresented = new CreatedResponse<{token: string}>();
+  const signinPresented = new SucessResponse<{token: string}>();
   return new SigninController(useCase,signinPresented)
 }

@@ -4,6 +4,7 @@ import { SigninCommand } from '~/domain/commands/sigin.command'
 import { IAccountRepository } from '~/domain/repositories/account.repository'
 import { Account } from '~/domain/account'
 import { IEncrypter } from '~/application/ports/encrypter'
+import { NotFoundError } from '~/application/errors/not-found.error'
 
 export class SigninCommandHandler implements ICommandHandler<SigninCommand> {
   constructor(
@@ -13,7 +14,7 @@ export class SigninCommandHandler implements ICommandHandler<SigninCommand> {
 
   private async getAccount(email: string): Promise<Account> {
     const account = await this.accountRepository.findbyEmail(email)
-    if (!account) throw new Error()
+    if (!account) throw new NotFoundError(`This account not exist`)
     return account
   }
 

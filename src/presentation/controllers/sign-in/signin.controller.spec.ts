@@ -1,70 +1,52 @@
 import { v4 } from 'uuid'
 import { ApplicationError } from '~/application/errors/app.error'
+import { BadRequestError } from '~/application/errors/bad-request.error'
 import { InvalidRequestError } from '~/application/errors/invalid-request'
-import { AddAccountUseCase } from '~/application/usecases/account/add-account.use-case'
-import { Account } from '~/domain/account'
-import { AccountStruct } from '~/domain/account.struct'
-import { CreatedResponse } from '~/presentation/responses/created-response'
-import { AddAccountController } from './add-account.controller'
+import { SiginUseCase } from '~/application/usecases/account/signin.use-case'
+import { SucessResponse } from '~/presentation/responses/sucess-response'
+import { SigninController } from './signin.controller'
 
 interface SutType {
-  sut: AddAccountController
-  addAccount: AddAccountUseCase
-  presenter: CreatedResponse<Omit<AccountStruct, 'password'>>
+  sut: SigninController
+  sigin: SiginUseCase
+  presenter: SucessResponse<{ token: string }>
 }
 
-jest.mock('~/application/usecases/account/add-account.use-case')
-jest.mock('~/presentation/responses/created-response')
+jest.mock('~/application/usecases/account/signin.use-case')
+jest.mock('~/presentation/responses/sucess-response')
 
-const AddAccountMock = AddAccountUseCase as jest.Mock<AddAccountUseCase>
-const PresenterMock = CreatedResponse as jest.Mock<
-  CreatedResponse<Omit<AccountStruct, 'password'>>
+const SigninMock = SiginUseCase as jest.Mock<SiginUseCase>
+const PresenterMock = SucessResponse as jest.Mock<
+  SucessResponse<{ token: string }>
 >
 
 const sutFactory = (): SutType => {
-  const addAccount = new AddAccountMock() as jest.Mocked<AddAccountUseCase>
+  const sigin = new SigninMock() as jest.Mocked<SiginUseCase>
   const presenterMock = new PresenterMock() as jest.Mocked<
-    CreatedResponse<Omit<AccountStruct, 'password'>>
+    SucessResponse<{ token: string }>
   >
-  const sut = new AddAccountController(addAccount, presenterMock)
-  return { sut, addAccount, presenter: presenterMock }
+  const sut = new SigninController(sigin, presenterMock)
+  return { sut, sigin, presenter: presenterMock }
 }
 
-const id = v4()
-const mockedAccount = (): Account => {
-  return Account.create({
-    balance: 1000,
-    password: '123456789',
-    email: 'stone@stone.com.br',
-    name: 'stonestone',
-    id,
-  }).value as any
-}
-
-describe('Create account controller', () => {
+describe('Sigin controller', () => {
   it('should throw if dto is invalid', async () => {
     const { sut } = sutFactory()
     const responseHasError = await sut.execute({}).catch((err) => err)
-    expect(responseHasError).toBeInstanceOf(ApplicationError)
-  })
-  it('should return a ApplicationError when has invalid dto', async () => {
-    const { sut } = sutFactory()
-    const nohasDTO = await sut.execute({}).catch((err) => err)
     const hasDtoInvalid = await sut
       .execute({
         body: {
-          email: 'adasdas',
-          password: '1234567',
-          name: 'error',
+          email: 'a',
+          password: 'b',
         },
       })
       .catch((err) => err)
-    expect(nohasDTO).toBeInstanceOf(InvalidRequestError)
-    expect(hasDtoInvalid).toBeInstanceOf(ApplicationError)
+    expect(responseHasError).toBeInstanceOf(InvalidRequestError)
+    expect(hasDtoInvalid).toBeInstanceOf(BadRequestError)
   })
   it('should not call useCase when has error', async () => {
-    const { sut, addAccount } = sutFactory()
-    const executeSpy = jest.spyOn(addAccount, 'execute')
+    const { sut, sigin } = sutFactory()
+    const executeSpy = jest.spyOn(sigin, 'execute')
     const invalid = await sut
       .execute({})
       .catch((err) => err)
@@ -74,21 +56,17 @@ describe('Create account controller', () => {
   })
   it('should return a valid account reponse', async () => {
     const { sut, presenter } = sutFactory()
-    const id = v4()
+    const token = 'stone jwt'
     const expected = {
-      statusCode: 201,
+      statusCode: 200,
       body: {
-        id,
-        email: 'stone@stone.com.br',
-        name: 'stonestone',
-        balance: 1000
-      }
+        token,
+      },
     }
     jest.spyOn(presenter, 'response').mockResolvedValueOnce(expected)
     const response = await sut.execute({
       body: {
         email: 'stone@stone.com.br',
-        name: 'stonestone',
         password: '123456789',
       },
     })
