@@ -12,8 +12,7 @@ export const adaptMiddleware = <T>(middleware: IMiddleware) => {
           headers: request.headers,
           method: request.method,
         })
-        .then((res) => next())
-      return next()
+        .then(() => next())
     } catch (error) {
       return next(error)
     }
