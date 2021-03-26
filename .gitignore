@@ -3,3 +3,4 @@ node_modules
 logs
 node
 dbdata
+coverage

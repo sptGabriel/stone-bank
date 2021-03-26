@@ -17,7 +17,7 @@ module.exports = {
   coverageDirectory: 'coverage',
   clearMocks: true,
   transform: {
-    '.+\\.ts$': 'ts-jest'
+    '.+\\.ts$': 'ts-jest',
   },
   // setupFiles: ['dotenv/config']
 }

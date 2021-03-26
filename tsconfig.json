@@ -18,9 +18,7 @@
     "noImplicitAny": true,
     "typeRoots": ["node_modules/@types", "src/@types"],
     "paths": {
-      "~/*": [
-        "src/*"
-      ]
+      "~/*": ["src/*"]
     }
   },
   "include": ["src/**/*", "./test/**/*.ts"],
