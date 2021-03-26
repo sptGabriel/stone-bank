@@ -1,33 +1,32 @@
-import { LoggerProvider } from "~presentation/protocols/index";
+import { Logger } from "~/infrastructure/logger/logger"
 
-const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 interface retryOptions {
-  fn: any;
-  retries: number;
-  interval: number;
+  fn: any
+  retries: number
+  interval: number
 }
 interface retry {
-  fn: any;
-  retries: number;
-  interval: number;
-  retryMsg?: string;
-  logger: LoggerProvider;
+  fn: any
+  retries: number
+  interval: number
+  retryMsg?: string
 }
 
 export const retryPromise = async <T>(opts: retry): Promise<T> => {
-  const { fn, interval, retryMsg, logger } = opts;
+  const { fn, interval, retryMsg } = opts
   try {
-    return await fn;
+    return await fn
   } catch (error) {
-    await wait(interval);
-    if (opts.retries === 0) throw new Error(error);
-    logger.log(`info`, `${retryMsg}: ${opts.retries}`, error);
+    await wait(interval)
+    if (opts.retries === 0) throw new Error(error)
+    Logger.log(`info`, `${retryMsg}: ${opts.retries}`, error)
     return await retryPromise({
       fn,
       retries: --opts.retries,
       interval,
       retryMsg,
-			logger
-    });
+    })
   }
-};
+}

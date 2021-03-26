@@ -1,7 +1,7 @@
-import { retryPromise } from '~utils/RetryablePromise'
+import { retryPromise } from '~/common/helpers/retryablePromise.helper'
 import knex, { Knex } from 'knex'
 import { Logger } from '../logger/logger'
-import {config} from './config'
+import { config } from './config'
 
 export const Connection = {
   client: (null as unknown) as Knex<any, unknown[]>,
@@ -13,18 +13,17 @@ export const Connection = {
         fn: this.client.raw(`select 1+1 as result`),
         retries: 5,
         interval: 1000,
-        logger: Logger,
         retryMsg: `Attempted connections to the remaining database`,
       })
       Logger.log(`info`, `Starting migrations`, {})
       await this.client.migrate.latest()
-    Logger.log(`info`, `Connected to the database`, {})
+      Logger.log(`info`, `Connected to the database`, {})
     } catch (error) {
       Logger.log(`info`, `Error while starting database`, error)
-      throw error;
+      throw error
     }
   },
   async disconnect(): Promise<void> {
     await this.client.destroy()
-  }
+  },
 }

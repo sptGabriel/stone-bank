@@ -1,3 +1,3 @@
-import { QueryBus } from "kill-event-sourcing";
+import { QueryBus } from 'kill-event-sourcing'
 
-export default new QueryBus();
+export default new QueryBus()

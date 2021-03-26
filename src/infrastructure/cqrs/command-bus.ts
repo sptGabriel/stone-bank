@@ -1,3 +1,3 @@
-import { CommandBus } from "kill-event-sourcing";
+import { CommandBus } from 'kill-event-sourcing'
 
-export default new CommandBus();
+export default new CommandBus()

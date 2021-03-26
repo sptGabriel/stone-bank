@@ -1,4 +1,4 @@
-import { BadRequestError } from '~presentation/errors/bad-request'
+import { BadRequestError } from '~/application/errors/bad-request.error'
 import { ObjectSchema } from 'joi'
 
 export const validateDTO = (data: any, schema: ObjectSchema<any>) => {

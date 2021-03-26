@@ -1,4 +1,4 @@
-import { ApplicationError } from "./app.error"
+import { ApplicationError } from './app.error'
 
 export class BadRequestError extends ApplicationError {
   constructor(public readonly errors: any, public readonly statusCode = 400) {
@@ -14,3 +14,4 @@ export class BadRequestError extends ApplicationError {
       errors: this.errors,
     }
   }
+}

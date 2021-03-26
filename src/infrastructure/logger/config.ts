@@ -1,6 +1,6 @@
-import dotenv from 'dotenv';
+import dotenv from 'dotenv'
 import { format, transports } from 'winston'
-dotenv.config();
+dotenv.config()
 
 const levels = {
   error: 0,
@@ -19,12 +19,10 @@ const formatLogger = format.combine(
   // Add the message timestamp with the preferred format
   format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
   // Tell Winston that the logs must be colored
-	format.colorize({ all: true }),
-	format.json(),
+  format.colorize({ all: true }),
+  format.json(),
   // Define the format of the message showing the timestamp, the level and the message
-  format.printf(
-    (info) => `${info.timestamp} ${info.level}: ${info.message}`,
-  ),
+  format.printf((info) => `${info.timestamp} ${info.level}: ${info.message}`),
 )
 const Loggertransports = [
   // Allow the use the console to print the messages
@@ -39,8 +37,8 @@ const Loggertransports = [
   new transports.File({ filename: 'logs/all.log' }),
 ]
 export const loggerConfig = {
-	level: level(),
-	levels,
-	format: formatLogger,
-	transports: Loggertransports,
+  level: level(),
+  levels,
+  format: formatLogger,
+  transports: Loggertransports,
 }

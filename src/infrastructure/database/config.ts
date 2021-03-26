@@ -1,16 +1,16 @@
-import * as dotenv from "dotenv";
-import { Knex } from "knex";
-dotenv.config();
+import * as dotenv from 'dotenv'
+import { Knex } from 'knex'
+dotenv.config()
 
 interface KnexConfig {
-  [name: string]: Knex.Config;
+  [name: string]: Knex.Config
 }
 
-const enviroment = process.env.NODE_ENV || "development";
+const enviroment = process.env.NODE_ENV || 'development'
 
 const knexConfigs: KnexConfig = {
   development: {
-    client: "pg",
+    client: 'pg',
     connection: {
       host: process.env.PG_HOST,
       user: process.env.PG_USER,
@@ -25,19 +25,19 @@ const knexConfigs: KnexConfig = {
       idleTimeoutMillis: 600000,
     },
     migrations: {
-      directory: "src/infrastructure/database/migrations",
-      extension: "ts",
+      directory: 'src/infrastructure/database/migrations',
+      extension: 'ts',
     },
   },
   test: {
-    client: "sqlite3",
-    connection: ":memory:",
+    client: 'sqlite3',
+    connection: ':memory:',
     useNullAsDefault: true,
     migrations: {
-      directory: "src/infrastructure/database/migrations",
+      directory: 'src/infrastructure/database/migrations',
     },
   },
-};
+}
 
-const config = knexConfigs[enviroment] || knexConfigs['development'];
-export { config };
+const config = knexConfigs[enviroment] || knexConfigs['development']
+export { config }

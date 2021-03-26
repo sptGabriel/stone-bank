@@ -5,10 +5,9 @@ export type ErrorParams = {
   errors?: any[]
 }
 
-
 export abstract class ApplicationError extends Error implements ErrorParams {
   public statusCode = 500
-	abstract serialize(): any
+  abstract serialize(): any
   constructor(message?: string) {
     super(message)
     this.message = message || this.name

@@ -1,5 +1,5 @@
-import { IRequestModel } from "./request-model";
+import { IRequestModel } from './request-model'
 
 export interface IController<T = unknown> {
-  execute(requestModel: IRequestModel): Promise<any>;
+  execute(requestModel: IRequestModel): Promise<any>
 }
