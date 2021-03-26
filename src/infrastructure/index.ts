@@ -1,11 +1,10 @@
 import { Connection } from './database/connection'
 import { SetupServer } from './http/http-server'
-import dotenv from 'dotenv'
-dotenv.config()
-;(async () => {
+
+(async () => {
   try {
-    SetupServer()
     await Connection.connect()
+    SetupServer()
   } catch (error) {
     throw error
   }

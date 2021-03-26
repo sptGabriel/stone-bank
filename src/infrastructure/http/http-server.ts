@@ -3,9 +3,8 @@ import { Logger } from '../logger/logger'
 import { setupApp } from './main/app'
 import { setupErrorHandler } from './main/error-handler'
 import { setupRoutes } from './main/routes'
-
-const port = process.env.NODE_ENV || 8080
 export const SetupServer = () => {
+  const port = process.env.APP_PORT
   const app = express()
   setupApp(app)
   setupRoutes(app)
