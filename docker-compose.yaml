@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+
+  api:
+    build: .
+    entrypoint: .docker/entrypoint.sh
+    container_name: stone-banking
+    ports:
+      - 8080:8080
+    env_file:
+      - .env
+    volumes:
+      - .:/home
+    depends_on:
+      - db
+  db:
+    build: .docker/postgres
+    container_name: db
+    restart: always
+    tty: true
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_PASSWORD=${PG_PWD}
+      - POSTGRES_DB=${PGDB_NAME}
+    ports:
+      - "5432:5432"
+volumes:
+  db:
+    driver: local
