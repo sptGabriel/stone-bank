@@ -1,8 +1,9 @@
-import { left, right } from '~main/core/either'
+
 import { Account } from './account'
 import { Transfer } from './transfer'
-import { InvalidAccountTypeError } from './errors/invalid-account'
 import { v4 } from 'uuid'
+import { InvalidAccountTypeError } from '~/application/errors/account-type.error'
+import { left } from '~/common/helpers/either'
 
 const owner = Account.create({
   name: 'stone stone',

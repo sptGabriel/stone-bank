@@ -1,7 +1,7 @@
 import { Either, left, right } from '~/common/helpers/either'
 import { AggregateRoot } from 'kill-event-sourcing'
 import { v4 as uuidV4 } from 'uuid'
-import { Account } from '.'
+import { Account } from './account'
 import { TransferStruct } from './transfer.struct'
 import { InvalidAccountTypeError } from '~/application/errors/account-type.error'
 

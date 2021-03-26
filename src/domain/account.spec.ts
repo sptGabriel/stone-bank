@@ -1,9 +1,10 @@
-import { left, right } from '~main/core/either'
-import { InvalidEmailError } from './errors/invalid-email'
-import { InvalidNameError } from './errors/invalid-name'
+
 import { Account } from './account'
-import { InvalidPasswordLengthError } from './errors/invalid-pwd-length'
 import { v4 } from 'uuid'
+import { InvalidEmailError } from '~/application/errors/invalid-email.error'
+import { left } from '~/common/helpers/either'
+import { InvalidNameError } from '~/application/errors/invalid-name.error'
+import { InvalidPasswordLengthError } from '~/application/errors/invalid-pwd-length'
 
 describe('Account domain', () => {
   test('should be create a valid account', () => {
