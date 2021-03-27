@@ -19,13 +19,13 @@ export class GetAccountsTransferController implements IController {
     },
   ): Promise<any> {
     if (isEmptyOrUndefined(req)) throw new InvalidRequestError()
-    const page = req.query.page || 1
-    const limit = req.query.limit || 15
+    const page = parseInt(req.query.page)
+    const limit = parseInt(req.query.limit) 
     const id = req.accountId
     if (!id) throw new UnauthorizedError()
     const transfers = await this.getAccountTransfers.execute(id, {
-      limit,
-      page,
+      limit: limit > 0 ? limit : 15,
+      page: page > 0 ? page : 1,
     })
     return this.presenter.response(transfers)
   }
