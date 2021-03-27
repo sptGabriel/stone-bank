@@ -2,6 +2,7 @@ import { ICommand, ICommandHandler } from 'kill-event-sourcing'
 import { NotFoundError } from '~/application/errors/not-found.error'
 import { TransferCommand } from '~/domain/commands/transfer.command'
 import { IAccountRepository } from '~/domain/repositories/account.repository'
+import { Transfer } from '~/domain/transfer'
 import { AccountRepository } from '~/infrastructure/persistence/account.impl-repository'
 import { TransferCommandHandler } from './transfer.command-handler'
 
