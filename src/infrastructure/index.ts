@@ -1,7 +1,6 @@
 import { Connection } from './database/connection'
 import { SetupServer } from './http/http-server'
-
-(async () => {
+;(async () => {
   try {
     await Connection.connect()
     SetupServer()

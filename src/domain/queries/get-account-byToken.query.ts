@@ -1,5 +1,5 @@
-import { IQuery } from "kill-event-sourcing";
+import { IQuery } from 'kill-event-sourcing'
 
-export class GetAccountByTokenQuery implements IQuery{
-	constructor(public readonly token:string){}
+export class GetAccountByTokenQuery implements IQuery {
+  constructor(public readonly token: string) {}
 }

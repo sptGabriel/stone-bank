@@ -27,7 +27,7 @@ export class GetAccountByTokenQueryHandler
       const decoded: any = await this.decrypt.decrypt(token)
       return await this.getAccount(decoded.id)
     } catch (error) {
-      if(error instanceof JsonWebTokenError) throw new UnauthorizedError()
+      if (error instanceof JsonWebTokenError) throw new UnauthorizedError()
       throw error
     }
   }

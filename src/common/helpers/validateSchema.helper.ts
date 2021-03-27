@@ -1,8 +1,8 @@
 import { BadRequestError } from '~/application/errors/bad-request.error'
-import { ObjectSchema } from 'joi'
+import { ObjectSchema, ValidationOptions } from 'joi'
 
 export const validateDTO = (data: any, schema: ObjectSchema<any>) => {
-  const options = { abortEarly: false }
+  const options: ValidationOptions = { abortEarly: false, convert: true }
   const errors = schema.validate(data, options)
   return errors.error
     ? new BadRequestError(buildUsefulErrorObject(errors.error.details))

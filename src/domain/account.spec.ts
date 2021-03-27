@@ -1,4 +1,3 @@
-
 import { Account } from './account'
 import { v4 } from 'uuid'
 import { InvalidEmailError } from '~/application/errors/invalid-email.error'
@@ -16,7 +15,7 @@ describe('Account domain', () => {
       password: 'stonebanking',
       name: 'stone banking',
     })
-		expect(stone.isRight() && stone.value).toBeInstanceOf(Account);
+    expect(stone.isRight() && stone.value).toBeInstanceOf(Account)
   })
   test('should not create account with balance value equals 100 and invalid e-mail', () => {
     const email = 'bad_email'
@@ -39,7 +38,7 @@ describe('Account domain', () => {
     expect(account).toEqual(left(new InvalidNameError('a')))
   })
 
-  test('should not create account with invalid pwd, (pwd less than 8) ', () => {
+  test('should not create account with invalid pwd, (pwd less than 8)', () => {
     const account = Account.create({
       name: 'asdasdsadasdasdas',
       balance: 1000,
@@ -50,7 +49,7 @@ describe('Account domain', () => {
   })
 
   test('should not create account with invalid name: too many characters', async () => {
-    let name: string = ''
+    let name = ''
     for (let i = 0; i < 256; i++) {
       name += 'stone'
     }

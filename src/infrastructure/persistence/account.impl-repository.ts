@@ -1,10 +1,10 @@
-import { Knex } from "knex"
-import { Account } from "~/domain/account"
-import { AccountStruct } from "~/domain/account.struct"
-import { AccountMapper } from "~/domain/mapper/account.mapper"
-import { IAccountRepository } from "~/domain/repositories/account.repository"
-import { Transfer } from "~/domain/transfer"
-import { TransferStruct } from "~/domain/transfer.struct"
+import { Knex } from 'knex'
+import { Account } from '~/domain/account'
+import { AccountStruct } from '~/domain/account.struct'
+import { AccountMapper } from '~/domain/mapper/account.mapper'
+import { IAccountRepository } from '~/domain/repositories/account.repository'
+import { Transfer } from '~/domain/transfer'
+import { TransferStruct } from '~/domain/transfer.struct'
 
 export class AccountRepository implements IAccountRepository {
   constructor(private readonly knex: Knex<any, any[]>) {}
@@ -14,7 +14,12 @@ export class AccountRepository implements IAccountRepository {
     return accounts.map((account) => AccountMapper.toDomain(account))
   }
 
-  public async findAccountTransfers(id: string): Promise<TransferStruct[]> {
+  public async findAccountTransfers(
+    id: string,
+    { page, limit }: { limit: number; page: number },
+  ): Promise<TransferStruct[]> {
+    console.log(typeof page === 'number', 'page')
+    console.log(typeof limit === 'number', 'limit')
     return this.knex<TransferStruct>('transfers')
       .innerJoin('accounts as owner', 'transfers.origin_id', 'owner.id')
       .innerJoin('accounts as target', 'transfers.target_id', 'target.id')
@@ -28,35 +33,37 @@ export class AccountRepository implements IAccountRepository {
       .where({ origin_id: id })
       .orWhere({ target_id: id })
       .orderBy('created_at', 'desc')
+      .limit(limit)
+      .offset((page - 1) * limit)
   }
 
   public async transfer(data: Transfer): Promise<void> {
     const trx = await this.knex.transaction()
     //query to update account_owner balance
-    const ownerQuery = trx<AccountStruct>('accounts')
-      .update({ balance: this.knex.raw(`balance - ${data.amount}`) })
-      .where({ id: data.owner.id })
-      .andWhereRaw(`balance >= ${data.amount}`)
-      .returning('*')
-      .then((res) => res[0])
-    //query to update account_target balance
-    const targetQuery = await trx<AccountStruct>('accounts')
-      .update({ balance: this.knex.raw(`balance + ${data.amount}`) })
-      .where({ id: data.target.id })
-      .returning('*')
-      .then((res) => res[0])
-    //query to insert transaction
-    const transfer = await trx
-      .insert({
-        id: data.id,
-        origin_id: data.owner.id,
-        target_id: data.target.id,
-        amount: data.amount,
-        created_at: data.created_at,
-      })
-      .into('transfers')
-      .returning('*')
     try {
+      const ownerQuery = trx<AccountStruct>('accounts')
+        .update({ balance: this.knex.raw(`balance - ${data.amount}`) })
+        .where({ id: data.owner.id })
+        .andWhereRaw(`balance >= ${data.amount}`)
+        .returning('*')
+        .then((res) => res[0])
+      //query to update account_target balance
+      const targetQuery = await trx<AccountStruct>('accounts')
+        .update({ balance: this.knex.raw(`balance + ${data.amount}`) })
+        .where({ id: data.target.id })
+        .returning('*')
+        .then((res) => res[0])
+      //query to insert transaction
+      const transfer = await trx
+        .insert({
+          id: data.id,
+          origin_id: data.owner.id,
+          target_id: data.target.id,
+          amount: data.amount,
+          created_at: data.created_at,
+        })
+        .into('transfers')
+        .returning('*')
       await ownerQuery
       await targetQuery
       await transfer

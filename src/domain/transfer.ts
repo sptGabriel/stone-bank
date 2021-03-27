@@ -24,7 +24,7 @@ export class Transfer extends AggregateRoot {
     this.target = target
     this.amount = amount
     this.created_at = created_at
-		Object.freeze(this)
+    Object.freeze(this)
   }
 
   public static create({
@@ -32,7 +32,7 @@ export class Transfer extends AggregateRoot {
     owner,
     amount,
     id,
-		created_at
+    created_at,
   }: {
     owner: Account
     target: Account
@@ -42,17 +42,17 @@ export class Transfer extends AggregateRoot {
   }): Either<Error, Transfer> {
     if (!(owner instanceof Account)) return left(new InvalidAccountTypeError())
     if (!(target instanceof Account)) return left(new InvalidAccountTypeError())
-		const date = created_at || new Date()
+    const date = created_at || new Date()
     return right(new Transfer(owner, target, amount, date, id))
   }
 
-	public toJSON(): TransferStruct {
+  public toJSON(): TransferStruct {
     return {
       id: this.id,
       origin_email: this.owner.email.value,
       target_email: this.target.email.value,
       amount: this.amount,
-			created_at: this.created_at
+      created_at: this.created_at,
     }
   }
 }

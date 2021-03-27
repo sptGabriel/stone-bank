@@ -1,5 +1,6 @@
-import { IResponseModel } from './response-model';
+import { RequestModel } from './request-model';
+import { IResponseModel } from './response-model'
 
 export interface IController {
-  execute(requestModel: any): Promise<IResponseModel<any>>
+  execute(request: RequestModel): Promise<IResponseModel<any>>
 }

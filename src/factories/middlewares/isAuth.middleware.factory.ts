@@ -20,6 +20,6 @@ export const makeisAuthMiddleware = (): IMiddleware => {
     },
   ])
   const useCase = new GetAccountByTokenUseCase(queryBus)
-  const presenter = new SucessResponse<{accountId: string}>()
+  const presenter = new SucessResponse<{ accountId: string }>()
   return new AuthMiddleware(useCase, presenter)
 }

@@ -1,4 +1,3 @@
-import { string } from 'joi'
 import { WithdrawCommandHandler } from '~/application/commands/withdraw/withdraw.command-handler'
 import { WithdrawUseCase } from '~/application/usecases/account/withdraw.use-case'
 import { AccountStruct } from '~/domain/account.struct'

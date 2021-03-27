@@ -14,6 +14,7 @@ export const adaptMiddleware = (middleware: IMiddleware) => {
           next()
         })
     } catch (error) {
+      console.log(error)
       return next(error)
     }
   }

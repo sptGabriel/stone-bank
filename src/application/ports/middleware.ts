@@ -1,4 +1,4 @@
-import { IResponseModel } from './response-model';
+import { IResponseModel } from './response-model'
 
 export interface IMiddleware {
   execute(requestModel: any): Promise<IResponseModel<any>>

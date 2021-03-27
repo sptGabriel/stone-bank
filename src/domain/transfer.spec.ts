@@ -1,4 +1,3 @@
-
 import { Account } from './account'
 import { Transfer } from './transfer'
 import { v4 } from 'uuid'
@@ -22,15 +21,15 @@ const target = Account.create({
 describe('Transfer domain', () => {
   test('should be create a valid transfer', () => {
     const created_at = new Date()
-    const id = v4();
+    const id = v4()
     const transfer = Transfer.create({
       owner: owner.value,
       target: target.value,
       amount: 10,
       created_at,
-      id
+      id,
     } as any)
-    expect(transfer.isRight() && transfer.value).toBeInstanceOf(Transfer);
+    expect(transfer.isRight() && transfer.value).toBeInstanceOf(Transfer)
   })
   test('should not transfer with invalid owner/target account', () => {
     const transfer = Transfer.create({

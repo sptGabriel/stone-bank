@@ -1,5 +1,4 @@
-import { Logger } from "~/infrastructure/logger/logger"
-
+import { Logger } from '~/infrastructure/logger/logger'
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 interface retryOptions {

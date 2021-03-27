@@ -27,7 +27,7 @@ export class WithdrawCommandHandler
   async execute(command: WithdrawCommand) {
     const { amount, id } = command.withdraw
     const account = await this.getAccount(id)
-		const updatedAccount = await this.withdrawMoney(account, amount)
+    const updatedAccount = await this.withdrawMoney(account, amount)
     return {
       message: 'Money withdrawn successfully',
       accounts: updatedAccount.toJSON(),

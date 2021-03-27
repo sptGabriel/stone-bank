@@ -37,8 +37,10 @@ describe('Sigin controller', () => {
       .catch((err) => err)
     const hasDtoInvalid = await sut
       .execute({
-        email: 'a',
-        password: 'b',
+        body: {
+          email: 'a',
+          password: 'b',
+        },
       })
       .catch((err) => err)
     expect(responseHasError).toBeInstanceOf(InvalidRequestError)
@@ -46,12 +48,8 @@ describe('Sigin controller', () => {
   })
   it('should not call useCase when has error', async () => {
     const { sut, sigin } = sutFactory()
-    const executeSpy = jest.spyOn(sigin, 'execute')
-    const invalid = await sut
-      .execute({} as any)
-      .catch((err) => err)
-      .catch((err) => err)
-    expect(executeSpy).toHaveBeenCalledTimes(0)
+    const invalid = await sut.execute(undefined as any).catch((err) => err)
+    expect(sigin.execute).toHaveBeenCalledTimes(0)
     expect(invalid).toBeInstanceOf(ApplicationError)
   })
   it('should return a valid account reponse', async () => {
@@ -65,8 +63,10 @@ describe('Sigin controller', () => {
     }
     jest.spyOn(presenter, 'response').mockResolvedValueOnce(expected)
     const response = await sut.execute({
-      email: 'stone@stone.com.br',
-      password: '123456789',
+      body: {
+        email: 'stone@stone.com.br',
+        password: '123456789',
+      },
     })
     expect(response).toStrictEqual(expected)
   })

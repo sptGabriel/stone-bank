@@ -42,32 +42,30 @@ const mockedAccount = (): Account => {
   }).value as any
 }
 
-describe('Create account controller', () => {
+describe('add account controller', () => {
   it('should throw if dto is invalid', async () => {
     const { sut } = sutFactory()
-    const responseHasError = await sut
-      .execute(undefined as any)
-      .catch((err) => err)
+    const responseHasError = await sut.execute({} as any).catch((err) => err)
     expect(responseHasError).toBeInstanceOf(InvalidRequestError)
   })
   it('should return a BadRequestError when has invalid dto', async () => {
     const { sut } = sutFactory()
-    const nohasDTO = await sut.execute(undefined as any).catch((err) => err)
     const hasDtoInvalid = await sut
       .execute({
-        email: 'adasdas',
-        password: '1234567',
-        name: 'error',
+        body: {
+          email: 'adasdas',
+          password: '1234567',
+          name: 'error',
+        },
       })
       .catch((err) => err)
     expect(hasDtoInvalid).toBeInstanceOf(BadRequestError)
   })
   it('should not call useCase when has error', async () => {
     const { sut, addAccount } = sutFactory()
-    const executeSpy = jest.spyOn(addAccount, 'execute')
-    const invalid = await sut.execute({} as any).catch((err) => err)
-    expect(executeSpy).toHaveBeenCalledTimes(0)
-    expect(invalid).toBeInstanceOf(ApplicationError)
+    const invalid = await sut.execute(undefined as any).catch((err) => err)
+    expect(addAccount.execute).toHaveBeenCalledTimes(0)
+    expect(invalid).toBeInstanceOf(InvalidRequestError)
   })
   it('should return a valid account reponse', async () => {
     const { sut, presenter } = sutFactory()
@@ -83,9 +81,11 @@ describe('Create account controller', () => {
     }
     jest.spyOn(presenter, 'response').mockResolvedValueOnce(expected)
     const response = await sut.execute({
-      email: 'stone@stone.com.br',
-      name: 'stonestone',
-      password: '123456789',
+      body: {
+        email: 'stone@stone.com.br',
+        name: 'stonestone',
+        password: '123456789',
+      },
     })
     expect(response).toStrictEqual(expected)
   })

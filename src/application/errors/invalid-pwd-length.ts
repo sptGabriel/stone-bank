@@ -1,5 +1,4 @@
-import { ApplicationError } from "./app.error"
-
+import { ApplicationError } from './app.error'
 
 export class InvalidPasswordLengthError extends ApplicationError {
   constructor(pwd: string, public readonly statusCode = 400) {

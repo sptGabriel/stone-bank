@@ -1,7 +1,7 @@
-import { ApplicationError } from "./app.error"
+import { ApplicationError } from './app.error'
 
 export class InvalidAccountTypeError extends ApplicationError {
-  constructor (public readonly statusCode = 400) {
+  constructor(public readonly statusCode = 400) {
     super(`Invalid Account.`)
     this.name = 'InvalidAccountError'
   }

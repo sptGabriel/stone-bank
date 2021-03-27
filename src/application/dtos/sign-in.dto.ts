@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from 'joi'
 
 export const SigninSchema = Joi.object().keys({
   email: Joi.string().email().required().messages({

@@ -18,8 +18,8 @@ export class Password {
       throw new InvalidRequestError(`Provide valid plain text password`)
     }
     const valid = await compare(plainTextPassword, this.pwd)
-    if(!valid) throw new UnauthorizedError('Invalid credentials');
-    return valid;
+    if (!valid) throw new UnauthorizedError('Invalid credentials')
+    return valid
   }
 
   public async encrypt(): Promise<string> {

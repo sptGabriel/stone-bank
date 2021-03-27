@@ -79,7 +79,7 @@ describe('Create account controller', () => {
           Name.create('hu3huhu3').value as any,
           1000,
           Password.create('dsadasdasdas').value as any,
-          v4()
+          v4(),
         ),
       )
     const response = await sut.execute(command).catch((err) => err)
@@ -88,8 +88,8 @@ describe('Create account controller', () => {
   })
   it('should return a valid token', async () => {
     const { sut, repository, command, account } = sutFactory()
-    jest.spyOn(sut, 'execute').mockResolvedValueOnce({token: 'stone jwt'})
+    jest.spyOn(sut, 'execute').mockResolvedValueOnce({ token: 'stone jwt' })
     const response = await sut.execute(command).catch((err) => err)
-    expect(response).toStrictEqual({token:'stone jwt'})
+    expect(response).toStrictEqual({ token: 'stone jwt' })
   })
 })

@@ -20,7 +20,7 @@ export class SigninCommandHandler implements ICommandHandler<SigninCommand> {
 
   async execute(command: SigninCommand): Promise<{ token: string }> {
     const { email, password } = command.account
-    const account = await this.getAccount(email);
+    const account = await this.getAccount(email)
     await account.password.comparePassword(password)
     const token = await this.encrypter.encrypt(account.id)
     return { token }

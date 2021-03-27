@@ -5,6 +5,8 @@ import { makeAddControllerFactory } from '~/factories/controllers/add-account-co
 import { makeSigninControllerFactory } from '~/factories/controllers/signin.controller.factory'
 import { makeisAuthMiddleware } from '~/factories/middlewares/isAuth.middleware.factory'
 import { makeWithdrawControllerFactory } from '~/factories/controllers/withdraw-controller.factory'
+import { makeTransferControllerFactory } from '~/factories/controllers/transfer-controller.factory'
+import { makeGetAccountTransferController } from '~/factories/controllers/get-account-transfers.controller.factory'
 
 export default (router: Router): void => {
   router.post('/accounts', adaptRoute(makeAddControllerFactory()))
@@ -12,11 +14,16 @@ export default (router: Router): void => {
   router.post(
     '/withdraw',
     adaptMiddleware(makeisAuthMiddleware()),
-    adaptRoute(makeWithdrawControllerFactory())
+    adaptRoute(makeWithdrawControllerFactory()),
   )
-  //router.post(
-  //  '/withdraw',
-  //  adaptMiddleware(makeisAuthMiddleware()),
-  //  adaptRoute(makeSigninControllerFactory()),
-  //)
+  router.post(
+    '/transfers',
+    adaptMiddleware(makeisAuthMiddleware()),
+    adaptRoute(makeTransferControllerFactory()),
+  )
+  router.get(
+    '/transfers',
+    adaptMiddleware(makeisAuthMiddleware()),
+    adaptRoute(makeGetAccountTransferController()),
+  )
 }

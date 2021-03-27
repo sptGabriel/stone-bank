@@ -5,10 +5,10 @@ export const WithdrawSchema = Joi.object().keys({
     'number.base': `should be a type of 'decimal'`,
     'number.positive': `cannot be an negative amount`,
     'any.required': `is a required field`,
-  })
+  }),
 })
 
 export interface IWithdrawDTO {
-	amount: number
-	id: string
+  amount: number
+  id: string
 }
