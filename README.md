@@ -41,12 +41,10 @@ _Regras de validação para esta rota_
 
 ```json
 {
-    {
-     "id": "6c2409e2-b4ef-463a-a757-6378fb3ee9a2",
-     "name": "stonedasdsad",
-     "email": "biel2@stone.com.br",
-     "balance": 1000
-     }
+  "id": "6c2409e2-b4ef-463a-a757-6378fb3ee9a2",
+  "name": "stonedasdsad",
+  "email": "biel2@stone.com.br",
+  "balance": 1000
 }
 ```
 
@@ -55,7 +53,7 @@ _Regras de validação para esta rota_
 #### Exemplo de request
 
 ```sh
-curl "http://localhost:3000/api/signin" \
+curl "http://localhost:8080/api/signin" \
      -H 'Content-Type: application/json' \
      -d '{
  	"email": "stone@stone.com",
