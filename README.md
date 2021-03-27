@@ -1,4 +1,4 @@
-### Tecnologias utilizadas
+# Tecnologias utilizadas
 - TypeScript;
 
 ## 🔧 Executar localmente
@@ -10,9 +10,9 @@
 - Execute o comando inciar o servidor com docker: `docker-compose up --build -d`;
 - Para test execute o comando: yarn ou npm test
 
-## Rotas
+# Rotas
 
-### `POST /api/accounts`
+# `POST /api/accounts`
 
 Cria uma nova conta para que a cliente possa começar a operar. A conta criada deve possui um saldo incial de **R$ 1000,00** (mil reais).
 
@@ -36,7 +36,7 @@ curl "http://localhost:8080/api/accounts" \
 - `password` campo obrigatório. Um password válido possui 8 ou mais caracteres;
 
 
-### `POST /api/signin`
+# `POST /api/signin`
 
 #### Exemplo de request
 
@@ -70,7 +70,7 @@ O token retornado pela rota de login deve ser repassado as rotas seguintes atrav
 Authorization: Bearer <TOKEN>
 ```
 
-### `GET /transfers`
+# `GET /transfers`
 
 Obtém o extrato de transferências efetuadas e recebidas referente a conta autenticada.
 
@@ -94,7 +94,7 @@ Obtém o extrato de transferências efetuadas e recebidas referente a conta aute
 
 ```
 
-### `POST /transfers`
+# `POST /transfers`
 
 Realiza a transferência entre o usuário autenticado e a conta de destino (`target_email`).
 
@@ -111,7 +111,7 @@ curl "http://localhost:3000/api/transfers" \
 
 ```
 
-### `POST /api/withdraw`
+# `POST /api/withdraw`
 
 Realiza o saque de um determinado valor(`amount`).
 
