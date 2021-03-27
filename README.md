@@ -16,7 +16,7 @@
 
 # `POST /api/accounts`
 
-Cria uma nova conta para que a cliente possa começar a operar. A conta criada deve possui um saldo incial de **R$ 1000,00** (mil reais).
+Cria uma nova conta para que a cliente possa começar a operar. A conta criada possui um saldo incial de **R$ 1000,00** (mil reais).
 
 #### Exemplo de request
 
