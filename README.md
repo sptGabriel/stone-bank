@@ -203,4 +203,4 @@ curl -X POST \
 }
 ```
 
-##### <p align="center"> <strong> desenvolvido por <a href="https://github.com/sptGabriel">Gabriel Costa</a> /> </strong> 👋
+##### <p align="center"> <strong> < desenvolvido por <a href="https://github.com/sptGabrie/">Gabriel Costa</a> /> </strong> 👋
