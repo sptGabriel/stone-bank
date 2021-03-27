@@ -7,7 +7,7 @@
   "description": "a bank api developed for the STONE testing process.",
   "repository": {
     "type": "git",
-    "url": "git://github.com/sptGabriel/stone-banking.git"
+    "url": "git://github.com/sptGabriel/stone-bank.git"
   },
   "engines": {
     "node": ">=10.0.0"
