@@ -8,8 +8,7 @@
 - Clone este repositório `https://github.com/sptGabriel/stone-bank`;
 - A porta 5432, deve está livre
 - A porta 8080, deve está livre
-- Execute o comando inciar o servidor em modo desenvolvimento: `yarn docker:up ou npm docker:up`;
-- Execute o comando inciar o servidor com docker: `docker-compose up --build -d`;
+- Execute o comando inciar o servidor em modo desenvolvimento: `yarn docker:up ou npm docker:up ou docker-compose up --build -d`;
 - Para test execute o comando: yarn ou npm test
 
 # Rotas
