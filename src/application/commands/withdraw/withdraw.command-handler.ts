@@ -30,7 +30,7 @@ export class WithdrawCommandHandler
     const updatedAccount = await this.withdrawMoney(account, amount)
     return {
       message: 'Money withdrawn successfully',
-      accounts: updatedAccount.toJSON(),
+      account: updatedAccount.toJSON(),
     }
   }
 }

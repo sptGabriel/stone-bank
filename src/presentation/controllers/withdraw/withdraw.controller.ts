@@ -15,7 +15,7 @@ export class WithdrawController implements IController {
     private readonly withdrawUseCase: any,
     private readonly presenter: IResponseHandler<{
       message: string
-      accounts: Omit<AccountStruct, 'password'>
+      account: Omit<AccountStruct, 'password'>
     }>,
   ) {}
 

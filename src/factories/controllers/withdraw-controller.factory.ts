@@ -20,7 +20,7 @@ export const makeWithdrawControllerFactory = () => {
   const useCase = new WithdrawUseCase(commandBus)
   const presenter = new SucessResponse<{
     message: string
-    accounts: Omit<AccountStruct, 'password'>
+    account: Omit<AccountStruct, 'password'>
   }>() as any
   return new WithdrawController(useCase, presenter)
 }

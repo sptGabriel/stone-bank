@@ -1,6 +1,4 @@
-import { BadRequestError } from '~/application/errors/bad-request.error'
 import { InvalidRequestError } from '~/application/errors/invalid-request'
-import { UnauthorizedError } from '~/application/errors/unathorized.error'
 import { IController } from '~/application/ports/controller'
 import { WithdrawUseCase } from '~/application/usecases/account/withdraw.use-case'
 import { AccountStruct } from '~/domain/account.struct'
@@ -12,7 +10,7 @@ interface SutType {
   withdraw: WithdrawUseCase
   presenter: SucessResponse<{
     message: string
-    accounts: Omit<AccountStruct, 'password'>
+    account: Omit<AccountStruct, 'password'>
   }>
 }
 
@@ -23,7 +21,7 @@ const WithDrawMock = WithdrawUseCase as jest.Mock<WithdrawUseCase>
 const PresenterMock = SucessResponse as jest.Mock<
   SucessResponse<{
     message: string
-    accounts: Omit<AccountStruct, 'password'>
+    account: Omit<AccountStruct, 'password'>
   }>
 >
 
@@ -32,7 +30,7 @@ const sutFactory = (): SutType => {
   const presenterMock = new PresenterMock() as jest.Mocked<
     SucessResponse<{
       message: string
-      accounts: Omit<AccountStruct, 'password'>
+      account: Omit<AccountStruct, 'password'>
     }>
   >
   const sut = new WithdrawController(withdraw, presenterMock)
