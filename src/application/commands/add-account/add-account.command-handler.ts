@@ -31,7 +31,6 @@ export class AddAccountCommandHandler
   ): Promise<Omit<AccountStruct, 'password'>> {
     const dto = command.account
     await this.findByEmail(dto.email)
-    await this.createAccount({ ...dto, balance: 1000 })
     return await this.createAccount({ ...dto, balance: 1000 })
   }
 }

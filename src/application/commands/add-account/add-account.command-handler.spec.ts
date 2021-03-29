@@ -42,11 +42,9 @@ const mockedCommand = (): AddAccountCommand => {
 describe('Create account command handler', () => {
   it('should call findbyEmail and save functions with correct values', async () => {
     const { sut, repository } = sutFactory()
-    const findbyEmail = jest.spyOn(repository, 'findbyEmail')
-    const save = jest.spyOn(repository, 'save')
     await sut.execute(mockedCommand())
-    expect(findbyEmail).toHaveBeenCalledTimes(1)
-    expect(save).toHaveBeenCalledTimes(1)
+    expect(repository.findbyEmail).toHaveBeenCalledTimes(1)
+    expect(repository.save).toHaveBeenCalledTimes(1)
   })
   it('should not call save when has invalid command', async () => {
     const { sut, repository } = sutFactory()
@@ -58,17 +56,15 @@ describe('Create account command handler', () => {
   it('should return AccountAlreadyExistsError when has invalid Email', async () => {
     const { sut, repository } = sutFactory()
     jest.spyOn(repository, 'findbyEmail').mockResolvedValueOnce(mockedAccount())
-    const save = jest.spyOn(repository, 'save')
     const response = await sut.execute(mockedCommand()).catch((err) => err)
-    expect(save).toHaveBeenCalledTimes(0)
+    expect(repository.save).toHaveBeenCalledTimes(0)
     expect(response).toBeInstanceOf(AccountAlreadyExistsError)
   })
   it('should save and return account created when has valid command', async () => {
     const { sut, repository } = sutFactory()
     jest.spyOn(sut, 'execute').mockResolvedValueOnce(mockedAccount().toJSON())
-    const save = jest.spyOn(repository, 'save')
     const response = await sut.execute(mockedCommand()).catch((err) => err)
-    expect(save).toHaveBeenCalledTimes(0)
+    expect(repository.save).toHaveBeenCalledTimes(0)
     expect(response).toStrictEqual({
       email: 'stone@stone.com.br',
       name: 'stonestone',
