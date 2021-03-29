@@ -9,20 +9,29 @@ export class AddAccountCommandHandler
   implements ICommandHandler<AddAccountCommand> {
   constructor(private readonly accountRepository: IAccountRepository) {}
 
-  async execute(
-    command: AddAccountCommand,
-  ): Promise<Omit<AccountStruct, 'password'>> {
-    const dto = command.account
-    const hasAccount = await this.accountRepository.findbyEmail(dto.email)
-    if (hasAccount) throw new AccountAlreadyExistsError()
+  private async createAccount(data: Omit<AccountStruct, 'id'>) {
     const account = await Account.create({
-      email: dto.email,
-      name: dto.name,
-      password: dto.password,
+      email: data.email,
+      name: data.name,
+      password: data.password,
       balance: 1000,
     })
     if (account.isLeft()) throw account.value
     await this.accountRepository.save(account.value)
     return account.value.toJSON()
+  }
+
+  private async findByEmail(email: string) {
+    const hasAccount = await this.accountRepository.findbyEmail(email)
+    if (hasAccount) throw new AccountAlreadyExistsError()
+  }
+
+  async execute(
+    command: AddAccountCommand,
+  ): Promise<Omit<AccountStruct, 'password'>> {
+    const dto = command.account
+    await this.findByEmail(dto.email)
+    await this.createAccount({ ...dto, balance: 1000 })
+    return await this.createAccount({ ...dto, balance: 1000 })
   }
 }

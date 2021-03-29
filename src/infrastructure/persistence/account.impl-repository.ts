@@ -18,8 +18,6 @@ export class AccountRepository implements IAccountRepository {
     id: string,
     { page, limit }: { limit: number; page: number },
   ): Promise<TransferStruct[]> {
-    console.log(typeof page === 'number', 'page')
-    console.log(typeof limit === 'number', 'limit')
     return this.knex<TransferStruct>('transfers')
       .innerJoin('accounts as owner', 'transfers.origin_id', 'owner.id')
       .innerJoin('accounts as target', 'transfers.target_id', 'target.id')
